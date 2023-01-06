@@ -6,9 +6,9 @@ pipeline {
 		sh 'rm -rf hello-world-war'
                 sh 'git clone https://github.com/naveenbs870/hello-world-war.git'
 		sh 'pwd'
-		dir ('hello-world-war') {
-			sh tomcatscript.sh
-		}
+// 		dir ('hello-world-war') {
+			sh 'tomcatscript.sh'
+// 		}
             }
         }
 	
