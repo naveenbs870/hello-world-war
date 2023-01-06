@@ -3,7 +3,7 @@ pipeline {
     stages {
 	stage('Tomcat Installation') {
             steps {
-		sh 'rm -rf hello-world-war'
+// 		sh 'rm -rf hello-world-war'
                 sh 'git clone https://github.com/naveenbs870/hello-world-war.git'
 		dir ('hello-world-war') {
 			sh 'tomcatscript.sh'
