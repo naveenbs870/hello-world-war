@@ -1,35 +1,9 @@
 pipeline {
     agent any
+    environment {
+        PATH = "$PATH:/usr/share/maven-3.6.3/bin"
+    }
     stages {
-	stage('Tomcat Installation') {
-            steps {
-// 		sh 'rm -rf hello-world-war'
-//                 sh 'git clone https://github.com/naveenbs870/hello-world-war.git'
-// 		sh 'pwd'
-// 		dir ('hello-world-war') {
-// 			sh 'tomcatscript.sh'
-// 		}
-		sh 'sudo apt update -y'
-		sh 'sudo apt install default-jdk -y'
-		sh 'sudo apt-cache search tomcat'
-		sh 'sudo apt install tomcat9 tomcat9-admin -y'
-		sh 'sudo ufw allow from any to any port 9090 proto tcp'
-		sh 'sudo su -'
-		sh 'sed -i 's/Connector port="8080"/Connector port="8090"/Ig' /etc/tomcat9/server.xml'
-		    
-		sh 'sed -i '56 i <role rolename="admin-gui"/>' /etc/tomcat9/tomcat-users.xml'
-
-		sh 'sed -i '57 i <role rolename="manager-gui"/>' /etc/tomcat9/tomcat-users.xml'
-
-		sh 'sed -i '58 i <user username="tomcat" password="pass" roles="admin-gui,manager-gui"/>' /etc/tomcat9/tomcat-users.xml'
-		sh 'systemctl restart tomcat9'
-		sh 'systemctl status tomcat9'
-		sh 'sed -i '45 i jenkins ALL=(ALL) NOPASSWD:ALL' /etc/sudoers'
-		sh 'sed -i '46 i jenkins ALL=(ALL) NOPASSWD: /var/lib/jenkins/workspace' /etc/sudoers'
-            }
-        }
-	
-	
         stage('Clone') {
             steps {
                 sh 'rm -rf hello-world-war'
@@ -38,12 +12,27 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn package'
+                dir('hello-world-war'){
+                sh 'mvn clean package'
+                }
             }
         }
-        stage('Deploy') {
+        stage('Deploy step') {
              steps {
-                 sh 'sudo cp ${WORKSPACE}/target/hello-world-war-1.0.0.war /var/lib/tomcat9/webapps'       
+                 sh 'sudo cp ${WORKSPACE}/hello-world-war/target/hello-world-war-1.0.0.war /var/lib/tomcat9/webapps/'       
+            }
+        }
+	stage('Test'){
+            steps{
+                sh 'mvn test'
+            }
+        }
+		stage('SonarQube analysis') {
+            steps{
+                withSonarQubeEnv('sonarqube-8.3') { 
+                sh ''' mvn verify sonar:sonar -Dsonar.login=admin -Dsonar.password=admin'''
+                }
+                
             }
         }
     }
