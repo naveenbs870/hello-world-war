@@ -7,11 +7,6 @@
 	<packaging>war</packaging>
 	<name>Hello World Web Application Repository</name>
 	<description>Simplest possible Java Webapp</description>
-	<dependency>
-    		<groupId>org.jacoco</groupId> 
-    		<artifactId>jacoco-maven-plugin</artifactId>
-    		<version>0.8.6</version>
-	</dependency>
 
 	<build>
 		<plugins>
@@ -29,26 +24,7 @@
 				<version>2.1.1</version>
 			</plugin>
 		</plugins>
-		<plugin>
-    			<groupId>org.jacoco</groupId>
-    			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>${jacoco.version}</version>
-    			<executions>
-        			<execution>
-            				<id>jacoco-initialize</id>
-            				<goals>
-                				<goal>prepare-agent</goal>
-            				</goals>
-        			</execution>
-        			<execution>
-            				<id>jacoco-site</id>
-            				<phase>package</phase>
-            				<goals>
-                				<goal>report</goal>
-            				</goals>
-        			</execution>
-    			</executions>
-		</plugin>
+		
 	</build>
 
 </project>
