@@ -17,16 +17,16 @@ pipeline {
                 }
             }
         }
-        stage('Deploy step') {
-             steps {
-                 sh 'sudo cp ${WORKSPACE}/hello-world-war/target/hello-world-war-1.0.0.war /var/lib/tomcat9/webapps/'       
-            }
-        }
-	stage('Test'){
-            steps{
-                sh 'mvn test'
-            }
-        }
+//         stage('Deploy step') {
+//              steps {
+//                  sh 'sudo cp ${WORKSPACE}/hello-world-war/target/hello-world-war-1.0.0.war /var/lib/tomcat9/webapps/'       
+//             }
+//         }
+// 	stage('Test'){
+//             steps{
+//                 sh 'mvn test'
+//             }
+//         }
 // 		stage('SonarQube analysis') {
 //             steps{
 //                 withSonarQubeEnv('sonarqube-8.3') { 
